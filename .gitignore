@@ -17,3 +17,7 @@ dist/
 
 # Build artifacts
 *.log
+*.db
+*.sqlite
+media-storage/
+
