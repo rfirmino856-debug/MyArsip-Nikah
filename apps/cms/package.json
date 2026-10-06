@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "next dev -p 3001",
     "build": "next build",
-    "start": "next start -p 3001"
+    "start": "next start -p 3001",
+    "migrate": "payload migrate",
+    "migrate:legacy-archives": "node scripts/migrate-legacy-archives.mjs"
   },
   "dependencies": {
     "@payloadcms/db-sqlite": "^3.90.2",

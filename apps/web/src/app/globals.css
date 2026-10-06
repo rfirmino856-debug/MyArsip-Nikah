@@ -2,69 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #f4f6f8;
-  --foreground: #1e293b;
-  --primary: #0f6b5f;
-  --primary-hover: #0c564c;
-  --card-bg: #ffffff;
-  --border-color: #e2e8f0;
-}
-
-[data-theme="matcha"] {
-  --background: #f0f7f3;
-  --foreground: #1c3829;
-  --primary: #2d6a4f;
-  --primary-hover: #1b4332;
-  --card-bg: rgba(255, 255, 255, 0.92);
-  --border-color: #b7e4c7;
-}
-
-[data-theme="mega-mendung"] {
-  --background: #0f172a;
-  --foreground: #f8fafc;
-  --primary: #38bdf8;
-  --primary-hover: #0ea5e9;
-  --card-bg: rgba(30, 41, 59, 0.95);
-  --border-color: #334155;
-}
-
-[data-theme="vintage"] {
-  --background: #fbf7ee;
-  --foreground: #422006;
-  --primary: #92400e;
-  --primary-hover: #78350f;
-  --card-bg: #fffbeb;
-  --border-color: #fde68a;
-}
-
-[data-theme="office"] {
-  --background: #f1f5f9;
-  --foreground: #0f172a;
-  --primary: #2563eb;
-  --primary-hover: #1d4ed8;
-  --card-bg: #ffffff;
-  --border-color: #cbd5e1;
-}
-
 body {
-  color: var(--foreground);
-  background-color: var(--background);
+  color: #0f172a;
+  background-color: #f8fafc;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   min-height: 100vh;
 }
-
-@media print {
-  @page {
-    size: A4 portrait;
-    margin: 15mm;
-  }
-  body {
-    background-color: #ffffff !important;
-    color: #000000 !important;
-  }
-  aside, header, nav, .print\:hidden {
-    display: none !important;
-  }
-}
-

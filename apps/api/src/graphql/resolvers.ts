@@ -1,7 +1,6 @@
 import { db } from '../db/index.js';
-import { arsipNikah, suratCounter, auditLogs } from '../db/schema.js';
+import { arsipNikah } from '../db/schema.js';
 import { eq, desc, and, or, like, sql as dSql } from 'drizzle-orm';
-import crypto from 'crypto';
 
 export const resolvers = {
   Query: {
@@ -95,115 +94,6 @@ export const resolvers = {
         tahun: Number(r.tahun),
         count: Number(r.count),
       }));
-    },
-  },
-
-  Mutation: {
-    createArsip: async (_: unknown, { input }: { input: any }) => {
-      const tahun = input.tahunArsip || (input.tanggalSurat ? new Date(input.tanggalSurat).getFullYear() : new Date().getFullYear());
-
-      // 1. Transaction Atomic Surat Counter
-      let nextNumber = 1;
-      const counterRow = await db.select().from(suratCounter).where(eq(suratCounter.tahun, tahun));
-
-      if (counterRow.length === 0) {
-        await db.insert(suratCounter).values({
-          id: crypto.randomUUID(),
-          tahun,
-          lastNumber: 1
-        });
-        nextNumber = 1;
-      } else {
-        nextNumber = counterRow[0].lastNumber + 1;
-        await db
-          .update(suratCounter)
-          .set({ lastNumber: nextNumber, updatedAt: new Date() })
-          .where(eq(suratCounter.tahun, tahun));
-      }
-
-      const formattedNumber = String(nextNumber).padStart(3, '0');
-      const nomorSurat = `474.2 / ${formattedNumber} / ${tahun}`;
-      const newId = crypto.randomUUID();
-
-      // 2. Insert Arsip Nikah (MySQL syntax compatible)
-      await db.insert(arsipNikah).values({
-        ...input,
-        id: newId,
-        nomorSurat,
-        nomorUrut: nextNumber,
-        tahunArsip: tahun,
-        isBatal: 'false',
-      });
-
-      const [newRecord] = await db.select().from(arsipNikah).where(eq(arsipNikah.id, newId));
-
-      // 3. Log Audit
-      await db.insert(auditLogs).values({
-        id: crypto.randomUUID(),
-        action: 'CREATE',
-        entityType: 'ARSIP_NIKAH',
-        entityId: newId,
-        changesJson: { nomorSurat, jenis: input.jenisSurat, suami: input.suamiNama, istri: input.istriNama },
-      });
-
-      return newRecord;
-    },
-
-    updateArsip: async (_: unknown, { id, input }: { id: string; input: any }) => {
-      await db
-        .update(arsipNikah)
-        .set({ ...input, updatedAt: new Date() })
-        .where(eq(arsipNikah.id, id));
-
-      const [updated] = await db.select().from(arsipNikah).where(eq(arsipNikah.id, id));
-
-      if (updated) {
-        await db.insert(auditLogs).values({
-          id: crypto.randomUUID(),
-          action: 'UPDATE',
-          entityType: 'ARSIP_NIKAH',
-          entityId: updated.id,
-          changesJson: input,
-        });
-      }
-
-      return updated;
-    },
-
-    deleteArsip: async (_: unknown, { id, alasan }: { id: string; alasan?: string }) => {
-      await db.insert(auditLogs).values({
-        id: crypto.randomUUID(),
-        action: 'DELETE',
-        entityType: 'ARSIP_NIKAH',
-        entityId: id,
-        changesJson: { alasan: alasan || 'Dihapus oleh admin' },
-      });
-
-      await db.delete(arsipNikah).where(eq(arsipNikah.id, id));
-      return true;
-    },
-
-    markAsBatal: async (_: unknown, { id, alasan }: { id: string; alasan: string }) => {
-      await db
-        .update(arsipNikah)
-        .set({
-          isBatal: 'true',
-          alasanBatal: alasan,
-          updatedAt: new Date(),
-        })
-        .where(eq(arsipNikah.id, id));
-
-      const [updated] = await db.select().from(arsipNikah).where(eq(arsipNikah.id, id));
-
-      await db.insert(auditLogs).values({
-        id: crypto.randomUUID(),
-        action: 'CANCEL',
-        entityType: 'ARSIP_NIKAH',
-        entityId: updated.id,
-        changesJson: { alasan },
-      });
-
-      return updated;
     },
   },
 };

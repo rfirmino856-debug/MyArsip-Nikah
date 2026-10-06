@@ -81,46 +81,6 @@ export const typeDefs = /* GraphQL */ `
     count: Int!
   }
 
-  input CreateArsipInput {
-    jenisSurat: JenisSurat!
-    tanggalSurat: String!
-    tanggalAkad: String
-    tahunArsip: Int
-    suamiNama: String!
-    suamiNik: String
-    suamiBin: String
-    suamiDesa: String
-    suamiKecamatan: String
-    istriNama: String!
-    istriNik: String
-    istriBinti: String
-    istriDesa: String
-    istriKecamatan: String
-    waliNama: String
-    waliStatus: String
-    waliHubungan: String
-    catatan: String
-  }
-
-  input UpdateArsipInput {
-    tanggalSurat: String
-    tanggalAkad: String
-    suamiNama: String
-    suamiNik: String
-    suamiBin: String
-    suamiDesa: String
-    suamiKecamatan: String
-    istriNama: String
-    istriNik: String
-    istriBinti: String
-    istriDesa: String
-    istriKecamatan: String
-    waliNama: String
-    waliStatus: String
-    waliHubungan: String
-    catatan: String
-  }
-
   type Query {
     getArsipList(
       jenis: JenisSurat
@@ -133,12 +93,5 @@ export const typeDefs = /* GraphQL */ `
     getArsipById(id: ID!): ArsipNikah
     getYearlyReport(tahun: Int!): YearlySummary!
     getCabinetFolders: [CabinetFolder!]!
-  }
-
-  type Mutation {
-    createArsip(input: CreateArsipInput!): ArsipNikah!
-    updateArsip(id: ID!, input: UpdateArsipInput!): ArsipNikah!
-    deleteArsip(id: ID!, alasan: String): Boolean!
-    markAsBatal(id: ID!, alasan: String!): ArsipNikah!
   }
 `;

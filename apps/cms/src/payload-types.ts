@@ -70,6 +70,7 @@ export interface Config {
     users: User;
     'media-arsip': MediaArsip;
     'template-surat': TemplateSurat;
+    'arsip-nikah': ArsipNikah;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -80,6 +81,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     'media-arsip': MediaArsipSelect<false> | MediaArsipSelect<true>;
     'template-surat': TemplateSuratSelect<false> | TemplateSuratSelect<true>;
+    'arsip-nikah': ArsipNikahSelect<false> | ArsipNikahSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -183,6 +185,48 @@ export interface TemplateSurat {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "arsip-nikah".
+ */
+export interface ArsipNikah {
+  id: number;
+  legacyId?: string | null;
+  nomorSurat: string;
+  nomorUrut: number;
+  jenisSurat: 'N_MASUK' | 'N_KELUAR' | 'ISBAT' | 'SURAT_WALI' | 'PEMBATALAN';
+  tanggalSurat: string;
+  tanggalAkad?: string | null;
+  tahunArsip: number;
+  suamiNama: string;
+  suamiNik?: string | null;
+  suamiBin?: string | null;
+  suamiDesa?: string | null;
+  suamiKecamatan?: string | null;
+  istriNama: string;
+  istriNik?: string | null;
+  istriBinti?: string | null;
+  istriDesa?: string | null;
+  istriKecamatan?: string | null;
+  waliNama?: string | null;
+  waliStatus?: string | null;
+  waliHubungan?: string | null;
+  isBatal?: boolean | null;
+  alasanBatal?: string | null;
+  catatan?: string | null;
+  lampiranFiles?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  createdById?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -216,6 +260,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'template-surat';
         value: number | TemplateSurat;
+      } | null)
+    | ({
+        relationTo: 'arsip-nikah';
+        value: number | ArsipNikah;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -313,6 +361,39 @@ export interface TemplateSuratSelect<T extends boolean = true> {
   kopSurat?: T;
   persyaratanDokumen?: T;
   pejabatPenandatangan?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "arsip-nikah_select".
+ */
+export interface ArsipNikahSelect<T extends boolean = true> {
+  legacyId?: T;
+  nomorSurat?: T;
+  nomorUrut?: T;
+  jenisSurat?: T;
+  tanggalSurat?: T;
+  tanggalAkad?: T;
+  tahunArsip?: T;
+  suamiNama?: T;
+  suamiNik?: T;
+  suamiBin?: T;
+  suamiDesa?: T;
+  suamiKecamatan?: T;
+  istriNama?: T;
+  istriNik?: T;
+  istriBinti?: T;
+  istriDesa?: T;
+  istriKecamatan?: T;
+  waliNama?: T;
+  waliStatus?: T;
+  waliHubungan?: T;
+  isBatal?: T;
+  alasanBatal?: T;
+  catatan?: T;
+  lampiranFiles?: T;
+  createdById?: T;
   updatedAt?: T;
   createdAt?: T;
 }

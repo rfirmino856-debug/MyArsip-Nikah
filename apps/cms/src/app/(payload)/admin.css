@@ -1,0 +1,116 @@
+.cms-welcome {
+  --cms-accent: #176b55;
+  --cms-accent-soft: color-mix(in srgb, var(--cms-accent) 10%, transparent);
+  margin: 0 0 2.5rem;
+  padding: clamp(1.5rem, 4vw, 2.75rem);
+  overflow: hidden;
+  border: 1px solid var(--theme-elevation-150);
+  border-radius: 18px;
+  background:
+    radial-gradient(ellipse at 100% 0%, var(--cms-accent-soft), transparent 43%),
+    var(--theme-elevation-0);
+}
+
+.cms-welcome__intro {
+  max-width: 650px;
+}
+
+.cms-welcome__eyebrow {
+  color: var(--cms-accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.cms-welcome h1 {
+  margin: 0.65rem 0 0.5rem;
+  font-size: clamp(1.65rem, 3vw, 2.25rem);
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+}
+
+.cms-welcome__intro p {
+  margin: 0;
+  color: var(--theme-elevation-600);
+  font-size: 0.98rem;
+  line-height: 1.65;
+}
+
+.cms-welcome__links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.75rem;
+}
+
+.cms-welcome__card {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.15rem;
+  border: 1px solid var(--theme-elevation-150);
+  border-radius: 12px;
+  color: var(--theme-text);
+  background: var(--theme-elevation-0);
+  text-decoration: none;
+  transition: border-color 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+}
+
+.cms-welcome__card:hover {
+  transform: translateY(-2px);
+  border-color: var(--cms-accent);
+  box-shadow: 0 8px 24px rgb(17 24 39 / 8%);
+}
+
+.cms-welcome__card:focus-visible {
+  outline: 2px solid var(--cms-accent);
+  outline-offset: 3px;
+}
+
+.cms-welcome__icon {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 10px;
+  color: var(--cms-accent);
+  background: var(--cms-accent-soft);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.cms-welcome__card-copy {
+  display: grid;
+  min-width: 0;
+  gap: 0.3rem;
+}
+
+.cms-welcome__card-copy strong {
+  font-size: 0.96rem;
+}
+
+.cms-welcome__card-copy span {
+  color: var(--theme-elevation-600);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.cms-welcome__arrow {
+  margin-left: auto;
+  color: var(--cms-accent);
+  font-size: 1.25rem;
+}
+
+@media (max-width: 700px) {
+  .cms-welcome__links {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cms-welcome__card {
+    transition: none;
+  }
+}

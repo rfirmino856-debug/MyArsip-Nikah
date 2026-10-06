@@ -10,7 +10,7 @@ Aplikasi ini dirancang untuk mendigitalkan, menertibkan nomor surat satu pintu, 
 ```text
 MyArsip-Nikah/
 ├── apps/
-│   ├── api/                    # 🚀 Backend API (GraphQL Yoga + Drizzle ORM + MySQL)
+│   ├── api/                    # 🚀 Sumber API legacy untuk migrasi arsip lama (MySQL)
 │   │   ├── src/
 │   │   │   ├── db/             # Skema tabel & koneksi database Drizzle
 │   │   │   ├── graphql/        # TypeDefs & Resolvers GraphQL
@@ -18,15 +18,9 @@ MyArsip-Nikah/
 │   │   ├── drizzle/            # File migrasi SQL otomatis
 │   │   ├── .env.example        # Template konfigurasi environment API
 │   │   └── package.json
-│   ├── web/                    # 💻 Frontend Next.js + Tailwind (Fase 3)
+│   ├── web/                    # 💻 Dashboard statistik Next.js (tanpa CRUD arsip)
 │   └── cms/                    # 📦 Headless CMS Payload (Fase 2)
 │
-├── css/                        # Stylesheet antarmuka versi prototype
-├── js/                         # Script client-side versi prototype
-│   ├── app.js
-│   └── config.js
-├── index.html                  # Antarmuka web prototype (aktif saat ini)
-├── server.js                   # Web server lokal Node.js ringan (Port 3000)
 ├── MIGRATION_PLAN.md           # Dokumen arsitektur & rencana migrasi modern stack
 └── README.md                   # Panduan instalasi dan menjalankan aplikasi
 ```
@@ -44,24 +38,10 @@ Sebelum memulai instalasi, pastikan sistem Anda sudah terpasang:
 
 ## 🚀 Panduan Menjalankan Aplikasi
 
-Aplikasi memiliki dua mode yang dapat dijalankan:
+Alur aktif menggunakan Payload CMS dan dashboard statistik Next.js. Prototype HTML statis lama telah dihapus.
 
-### 1. Menjalankan Frontend Prototype (Port 3000)
-Halaman web statis siap pakai yang langsung dapat diakses di browser:
-
-```bash
-# Jalankan server lokal dari root direktori proyek
-node server.js
-```
-- Buka browser di: **[http://localhost:3000](http://localhost:3000)**
-- **Kredensial Login Demo:**
-  - Email / Username: `admin@myarsipnikah.id` (atau cukup ketik `admin`)
-  - Password: `admin123`
-
----
-
-### 2. Menjalankan Backend API GraphQL & Drizzle ORM (Port 4000)
-Backend modern yang terhubung ke database **MySQL lokal**:
+### 1. API GraphQL Legacy (Hanya untuk Migrasi Data Lama)
+API ini tidak lagi digunakan oleh dashboard statistik atau Payload CMS. Jalankan hanya saat memigrasikan data lama sesuai [panduan CMS](apps/cms/README.md).
 
 #### Langkah A: Masuk ke folder API
 ```bash
@@ -107,59 +87,15 @@ npm run dev
 
 ---
 
-## 🧪 Contoh Pengujian GraphQL (GraphiQL)
+### 2. Dashboard Statistik dan Pengelolaan Arsip Payload
 
-Anda dapat mencoba Query dan Mutation langsung pada GraphiQL di `http://localhost:4000/graphql`:
+Pengelolaan tambah, edit, dan hapus arsip dilakukan melalui Payload CMS di `http://localhost:3001/admin`. Dashboard Next.js di port `3000` hanya menampilkan statistik agregat dari Payload; data pribadi arsip tidak ditampilkan di sana.
 
-### ➕ Tambah Data Arsip Nikah (Mutation)
-```graphql
-mutation {
-  createArsip(input: {
-    jenisSurat: N_MASUK
-    tanggalSurat: "2026-10-06"
-    suamiNama: "Ahmad Dahlan"
-    suamiNik: "3521012345670001"
-    suamiBin: "Mansyur"
-    suamiDesa: "Pelang Kidul"
-    istriNama: "Fatimah Azzahra"
-    istriNik: "3521012345670002"
-    istriBinti: "Zainuddin"
-    istriDesa: "Pelang Kidul"
-    waliNama: "Zainuddin"
-    waliStatus: "Nasab"
-    waliHubungan: "Ayah Kandung"
-  }) {
-    id
-    nomorSurat
-    nomorUrut
-    suamiNama
-    istriNama
-    tahunArsip
-  }
-}
-```
-
-### 🔍 Ambil Daftar Arsip & Rekap Folder (Query)
-```graphql
-query {
-  getArsipList(limit: 10) {
-    totalCount
-    items {
-      nomorSurat
-      jenisSurat
-      suamiNama
-      istriNama
-      tanggalSurat
-    }
-  }
-  getCabinetFolders {
-    tahun
-    count
-  }
-}
-```
+Ikuti panduan [apps/cms/README.md](apps/cms/README.md) untuk menjalankan CMS, dashboard statistik, dan migrasi arsip lama dari API ke Payload.
 
 ---
+
+Untuk penggunaan normal, lakukan semua perubahan arsip melalui Payload CMS. API GraphQL lama dipertahankan hanya sebagai sumber baca untuk proses migrasi terdahulu.
 
 ## 📋 Roadmap & Isu Pengembangan
 
