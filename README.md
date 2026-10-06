@@ -175,4 +175,4 @@ Dokumen perencanaan dan pelacakan migrasi dapat dilihat pada:
 ---
 
 ## 📄 Lisensi
-Hak Cipta © 2026 - **Pemerintah Desa Pelang Kidul & P3N Pelang Kidul**.
+Hak Cipta © 2026.
