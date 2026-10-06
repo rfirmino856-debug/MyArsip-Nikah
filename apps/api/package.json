@@ -1,0 +1,36 @@
+{
+  "name": "myarsip-nikah-api",
+  "version": "1.0.0",
+  "description": "Backend API Service for MyArsip Nikah Desa Pelang Kidul with Drizzle ORM and GraphQL",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "@graphql-tools/schema": "^10.0.4",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.33.0",
+    "graphql": "^16.9.0",
+    "graphql-yoga": "^5.7.0",
+    "hono": "^4.6.0",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.24.5",
+    "postgres": "^3.4.4",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/node": "^22.5.0",
+    "drizzle-kit": "^0.24.2",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.4"
+  }
+}
